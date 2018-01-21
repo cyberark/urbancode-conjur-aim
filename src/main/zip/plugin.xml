@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.urbancode.com/PluginXMLSchema_v1"
+        xmlns:server="http://www.urbancode.com/PluginServerXMLSchema_v1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <header>
+    <identifier id="com.urbancode.air.plugin.cyberark" version="@API_VERSION@" name="CyberArk"/>
+    <description>This CyberArk plugin enables credentials/secrets retrieval from CyberArk Vault and Conjur</description>
+    <tag>Security/CyberArk</tag>
+  </header>
+
+  <step-type name="Get Password from Vault">
+    <description>Get Password using CyberArk AIM Credential Provider</description>
+    <properties>
+      <property name="path">
+       <property-ui type="textBox"
+                     label="Path"
+                     description="Full path to clipasswordsdk.  E.g. /opt/CARKaim/sdk/clipasswordsdk">
+	</property-ui>
+      </property>
+      <property name="safe">
+        <property-ui type="textBox"
+                     label="Safe"
+                     description="Safe name">
+        </property-ui>
+      </property>
+      <property name="folder">
+        <property-ui type="textBox"
+                     label="Folder"
+                     description="Folder name">
+        </property-ui>
+      </property>
+      <property name="object">
+        <property-ui type="textBox"
+                     label="Object"
+                     description="Object name of the credential">
+        </property-ui>
+      </property>
+      <property name="appid">
+        <property-ui type="textBox"
+                     label="AppID"
+                     description="AppID configured in CyberArk PVWA">
+        </property-ui>
+      </property>
+    </properties>
+    <post-processing>
+      <![CDATA[
+        if (properties.get("exitCode") != 0) {
+            properties.put(new java.lang.String("Status"), new java.lang.String("Failure"));
+        }
+        else {
+            properties.put("Status", "Success");
+        }
+     ]]>
+    </post-processing>
+    <command program="${GROOVY_HOME}/bin/groovy">
+      <arg value="-cp"/>
+      <arg path="classes:lib/groovy-plugin-utils-1.0.jar"/>
+      <arg file="clipasswordsdk.groovy"/>
+      <arg file="${PLUGIN_INPUT_PROPS}"/>
+      <arg file="${PLUGIN_OUTPUT_PROPS}"/>
+    </command>
+  </step-type>
+
+  <!-- Conjur -->
+  <step-type name="Authenticate Conjur">
+    <description>Authenticate Conjur using API Key to get a short-lived access token</description>
+    <properties>
+      <property name="account">
+       <property-ui type="textBox"
+                     label="Account"
+                     description="Organization account name">
+	</property-ui>
+      </property>
+      <property name="login">
+        <property-ui type="textBox"
+                     label="Login"
+                     description="Login name of the client. For users, it’s the user id. For hosts, the login name is host/host-id">
+        </property-ui>
+      </property>
+      <property name="apikey">
+        <property-ui type="textBox"
+                     label="API Key"
+                     description="API key">
+        </property-ui>
+      </property>
+      <property name="url">
+        <property-ui type="textBox"
+                     label="Conjur URL"
+                     description="Url of Conjur, eg https://eval.conjur.org">
+        </property-ui>
+      </property>
+      <property name="proxy">
+        <property-ui type="textBox"
+                     label="Proxy"
+                     description="Proxy, leave it blank if no proxy is needed">
+        </property-ui>
+      </property>
+    </properties>
+    <post-processing>
+      <![CDATA[
+        if (properties.get("exitCode") != 0) {
+            properties.put(new java.lang.String("Status"), new java.lang.String("Failure"));
+        }
+        else {
+            properties.put("Status", "Success");
+        }
+     ]]>
+    </post-processing>
+    <command program="${GROOVY_HOME}/bin/groovy">
+      <arg value="-cp"/>
+      <arg path="classes:lib/groovy-plugin-utils-1.0.jar"/>
+      <arg file="conjur_auth.groovy"/>
+      <arg file="${PLUGIN_INPUT_PROPS}"/>
+      <arg file="${PLUGIN_OUTPUT_PROPS}"/>
+    </command>
+  </step-type>
+
+  <step-type name="Get Variable from Conjur">
+    <description>Get Variable from Conjur</description>
+    <properties>
+      <property name="account">
+       <property-ui type="textBox"
+                     label="Account"
+                     description="Organization account name">
+	</property-ui>
+      </property>
+      <property name="accesstoken">
+        <property-ui type="textBox"
+                     label="Access Token"
+                     description="Access Token">
+        </property-ui>
+      </property>
+      <property name="varid">
+        <property-ui type="textBox"
+                     label="Variable ID"
+                     description="Variable ID">
+        </property-ui>
+      </property>
+      <property name="url">
+        <property-ui type="textBox"
+                     label="Conjur URL"
+                     description="Url of Conjur, eg https://eval.conjur.org">
+        </property-ui>
+      </property>
+      <property name="proxy">
+        <property-ui type="textBox"
+                     label="Proxy"
+                     description="Proxy, leave it blank if no proxy is needed">
+        </property-ui>
+      </property>
+
+    </properties>
+    <post-processing>
+      <![CDATA[
+        if (properties.get("exitCode") != 0) {
+            properties.put(new java.lang.String("Status"), new java.lang.String("Failure"));
+        }
+        else {
+            properties.put("Status", "Success");
+        }
+     ]]>
+    </post-processing>
+    <command program="${GROOVY_HOME}/bin/groovy">
+      <arg value="-cp"/>
+      <arg path="classes:lib/groovy-plugin-utils-1.0.jar"/>
+      <arg file="conjur_getvar.groovy"/>
+      <arg file="${PLUGIN_INPUT_PROPS}"/>
+      <arg file="${PLUGIN_OUTPUT_PROPS}"/>
+    </command>
+  </step-type>
+</plugin>
+
