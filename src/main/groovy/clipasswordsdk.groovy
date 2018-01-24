@@ -26,6 +26,11 @@ def err = new StringBuffer()
 process.consumeProcessOutput( out, err )
 process.waitFor()
 
+exitValue = process.exitValue();
+
+if(!exitValue)
+	System.exit(exitValue);
+
 if( out.size() > 0 ) println("Credential retrieved")
 if( err.size() > 0 ) println("Error: "+err)
 
@@ -39,7 +44,4 @@ airTool.setOutputProperty("Username", results[2].trim());
 
 airTool.storeOutputProperties();
 
-exitValue = process.exitValue();
 
-if(!exitValue)
-	System.exit(exitValue);
