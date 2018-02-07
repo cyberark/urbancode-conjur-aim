@@ -23,5 +23,9 @@
       2. Using REST API to receive secrets frmo CyberArk Conjur
     </release-note>
 
+    <release-note plugin-version="2">
+      Added checkbox to 'Get Password From Vault' step to allow setting secure component process properties.
+    </release-note>
+
   </release-notes>
 </pluginInfo>
