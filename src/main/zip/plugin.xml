@@ -50,12 +50,22 @@
                         possible with output properties.">
         </property-ui>
       </property>
-      <property name="componentProcessId">
+      <property name="requestId">
         <property-ui type="textBox"
-                     label="Component Process ID"
-                     description="Property to reference the ID of the component process."
+                     label="Process Request ID"
+                     description="Property to reference the ID of the process request. This will
+                        either be a component process request or a generic process request."
                      hidden="true"
-                     default-value="${p:process.id}">
+                     default-value="${p?:request.id}">
+        </property-ui>
+      </property>
+      <property name="processId">
+        <property-ui type="textBox"
+                     label="Process ID"
+                     description="The ID of the generic process. If the requested process derived 
+                        from a component process this property will be empty."
+                     hidden="true"
+                     default-value="${p?:process.id}">
         </property-ui>
       </property>
     </properties>

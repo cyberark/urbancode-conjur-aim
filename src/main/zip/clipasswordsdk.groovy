@@ -1,5 +1,3 @@
-
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Import
 import com.urbancode.air.AirPluginTool;
 import com.urbancode.air.plugin.cyberark.UCDRestHelper;
 
@@ -44,10 +42,11 @@ String[] results = out.toString().split(",")
 
 if (isSecure) {
     UCDRestHelper ucdHelper = new UCDRestHelper()
-    def componentProcessId = props['componentProcessId']
-    ucdHelper.setProcessProperty(results[0], "CyberArk/password", componentProcessId, true)
-    ucdHelper.setProcessProperty(results[1], "CyberArk/address", componentProcessId, false)
-    ucdHelper.setProcessProperty(results[2], "CyberArk/username", componentProcessId, false)
+    def requestId = props['requestId']
+    boolean isComponent = props['processId'] ? false : true
+    ucdHelper.setProcessRequestProp(requestId, "CyberArk/password", results[0], true, isComponent)
+    ucdHelper.setProcessRequestProp(requestId, "CyberArk/address", results[1], false, isComponent)
+    ucdHelper.setProcessRequestProp(requestId, "CyberArk/username", results[2], false, isComponent)
 }
 else {
     airTool.setOutputProperty("Password", results[0].trim())

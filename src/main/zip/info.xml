@@ -27,5 +27,9 @@
       Added checkbox to 'Get Password From Vault' step to allow setting secure component process properties.
     </release-note>
 
+    <release-note plugin-version="3">
+      Updated the 'Get Password From Vault' step to configure either component process request or generic process process request properties.
+    </release-note>
+
   </release-notes>
 </pluginInfo>

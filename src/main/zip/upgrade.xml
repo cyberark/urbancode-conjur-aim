@@ -5,4 +5,13 @@
 
   <migrate to-version="2">
   </migrate>
+
+  <migrate to-version="3">
+    <migrate-command name="Get Password from Vault">
+      <migrate-properties>
+        <migrate-property name="requestId" old="componentProcessId" default="${p?:request.id}"/>
+        <migrate-property name="processId" default="${p?:process.id}"/>
+      </migrate-properties>
+    </migrate-command>
+  </migrate>
 </plugin-upgrade>
