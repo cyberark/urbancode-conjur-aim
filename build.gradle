@@ -60,7 +60,7 @@ dependencies {
     compile 'com.ibm.urbancode.plugins:groovy-plugin-utils:+'
     compile 'com.ibm.urbancode.util:i18n-scraper:+'
     compile 'commons-lang:commons-lang:2.5'
-
+    compile 'com.ibm.urbancode.commons:uDeployRestClient:+'
     // This compiles the i18n-scraper script
     compile localGroovy()
     // compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.3.6'
