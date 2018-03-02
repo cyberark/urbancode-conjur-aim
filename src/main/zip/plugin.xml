@@ -41,6 +41,33 @@
                      description="AppID configured in CyberArk PVWA">
         </property-ui>
       </property>
+      <property name="isSecure">
+        <property-ui type="checkBox"
+                     label="Secure Properties"
+                     description="Check this box to create CyberArk/password, CyberArk/username,
+                        and CyberArk/address as component process properties instead of output 
+                        properties. The password property will be a secure value, which is not
+                        possible with output properties.">
+        </property-ui>
+      </property>
+      <property name="requestId">
+        <property-ui type="textBox"
+                     label="Process Request ID"
+                     description="Property to reference the ID of the process request. This will
+                        either be a component process request or a generic process request."
+                     hidden="true"
+                     default-value="${p?:request.id}">
+        </property-ui>
+      </property>
+      <property name="processId">
+        <property-ui type="textBox"
+                     label="Process ID"
+                     description="The ID of the generic process. If the requested process derived 
+                        from a component process this property will be empty."
+                     hidden="true"
+                     default-value="${p?:process.id}">
+        </property-ui>
+      </property>
     </properties>
     <post-processing>
       <![CDATA[
@@ -54,7 +81,7 @@
     </post-processing>
     <command program="${GROOVY_HOME}/bin/groovy">
       <arg value="-cp"/>
-      <arg path="classes:lib/groovy-plugin-utils-1.0.jar"/>
+      <arg path="classes:lib/groovy-plugin-utils.jar:lib/uDeployRestClient.jar"/>
       <arg file="clipasswordsdk.groovy"/>
       <arg file="${PLUGIN_INPUT_PROPS}"/>
       <arg file="${PLUGIN_OUTPUT_PROPS}"/>
@@ -108,7 +135,7 @@
     </post-processing>
     <command program="${GROOVY_HOME}/bin/groovy">
       <arg value="-cp"/>
-      <arg path="classes:lib/groovy-plugin-utils-1.0.jar"/>
+      <arg path="classes:lib/groovy-plugin-utils.jar"/>
       <arg file="conjur_auth.groovy"/>
       <arg file="${PLUGIN_INPUT_PROPS}"/>
       <arg file="${PLUGIN_OUTPUT_PROPS}"/>
@@ -162,7 +189,7 @@
     </post-processing>
     <command program="${GROOVY_HOME}/bin/groovy">
       <arg value="-cp"/>
-      <arg path="classes:lib/groovy-plugin-utils-1.0.jar"/>
+      <arg path="classes:lib/groovy-plugin-utils.jar"/>
       <arg file="conjur_getvar.groovy"/>
       <arg file="${PLUGIN_INPUT_PROPS}"/>
       <arg file="${PLUGIN_OUTPUT_PROPS}"/>

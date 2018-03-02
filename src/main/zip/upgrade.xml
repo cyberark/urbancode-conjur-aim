@@ -4,10 +4,13 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <migrate to-version="2">
-    <migrate-command name="Hello World">
+  </migrate>
+
+  <migrate to-version="3">
+    <migrate-command name="Get Password from Vault">
       <migrate-properties>
-        <!-- Adding a new property always requires the 'default' attribute -->
-        <migrate-property name="name" default="World"/>
+        <migrate-property name="requestId" old="componentProcessId" default="${p?:request.id}"/>
+        <migrate-property name="processId" default="${p?:process.id}"/>
       </migrate-properties>
     </migrate-command>
   </migrate>
