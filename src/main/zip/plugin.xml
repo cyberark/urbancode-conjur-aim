@@ -11,45 +11,59 @@
   <step-type name="Get Password from Vault">
     <description>Get Password using CyberArk AIM Credential Provider</description>
     <properties>
-      <property name="path">
+      <property name="path" required="true">
        <property-ui type="textBox"
                      label="Path"
-                     description="Full path to clipasswordsdk.  E.g. /opt/CARKaim/sdk/clipasswordsdk">
+                     description="Full path to clipasswordsdk.  E.g. /opt/CARKaim/sdk/clipasswordsdk"
+					 default-value="/opt/CARKaim/sdk/clipasswordsdk">
 	</property-ui>
       </property>
-      <property name="safe">
+      <property name="safe"  required="true">
         <property-ui type="textBox"
                      label="Safe"
                      description="Safe name">
         </property-ui>
       </property>
-      <property name="folder">
+      <property name="folder"  required="true">
         <property-ui type="textBox"
                      label="Folder"
-                     description="Folder name">
+                     description="Folder name"
+					 default-value="Root">
         </property-ui>
       </property>
-      <property name="object">
+      <property name="object" required="true">
         <property-ui type="textBox"
                      label="Object"
                      description="Object name of the credential">
         </property-ui>
       </property>
-      <property name="appid">
+      <property name="appid"  required="true">
         <property-ui type="textBox"
                      label="AppID"
                      description="AppID configured in CyberArk PVWA">
         </property-ui>
       </property>
-      <property name="isSecure">
-        <property-ui type="checkBox"
-                     label="Secure Properties"
-                     description="Check this box to create CyberArk/password, CyberArk/username,
-                        and CyberArk/address as component process properties instead of output 
-                        properties. The password property will be a secure value, which is not
-                        possible with output properties.">
+      <property name="outputpass"  required="true">
+        <property-ui type="textBox"
+                      label="Ouput Property - Password"
+                     description="Process Request Property for storing the retrieved password"
+					 default-value="CyberArk/Vault/Password">
         </property-ui>
       </property>
+      <property name="outputuser">
+        <property-ui type="textBox"
+                     label="Ouput Property - User Name"
+                     description="Process Request Property for storing the retrieved user name"
+					 default-value="CyberArk/Vault/User">
+        </property-ui>
+      </property>
+      <property name="outputaddr">
+        <property-ui type="textBox"
+                     label="Ouput Property - Address"
+                     description="Process Request Property for storing the retrieved address"
+					 default-value="CyberArk/Vault/Address">
+        </property-ui>
+      </property>      
       <property name="requestId">
         <property-ui type="textBox"
                      label="Process Request ID"
@@ -92,25 +106,25 @@
   <step-type name="Authenticate Conjur">
     <description>Authenticate Conjur using API Key to get a short-lived access token</description>
     <properties>
-      <property name="account">
+      <property name="account" required="true">
        <property-ui type="textBox"
                      label="Account"
                      description="Organization account name">
 	</property-ui>
       </property>
-      <property name="login">
+      <property name="login" required="true">
         <property-ui type="textBox"
                      label="Login"
                      description="Login name of the client. For users, it’s the user id. For hosts, the login name is host/host-id">
         </property-ui>
       </property>
-      <property name="apikey">
+      <property name="apikey" required="true">
         <property-ui type="textBox"
                      label="API Key"
                      description="API key">
         </property-ui>
       </property>
-      <property name="url">
+      <property name="url" required="true">
         <property-ui type="textBox"
                      label="Conjur URL"
                      description="Url of Conjur, eg https://eval.conjur.org">
@@ -122,6 +136,34 @@
                      description="Proxy, leave it blank if no proxy is needed">
         </property-ui>
       </property>
+      <property name="outputtoken" required="true">
+        <property-ui type="textBox"
+                     label="Ouput Property - Access Token"
+                     description="Process Request Property for storing the retrieved access token"
+					 default-value="CyberArk/Conjur/AccessToken">
+        </property-ui>
+      </property>
+	  
+	  
+      <property name="requestId">
+        <property-ui type="textBox"
+                     label="Process Request ID"
+                     description="Property to reference the ID of the process request. This will
+                        either be a component process request or a generic process request."
+                     hidden="true"
+                     default-value="${p?:request.id}">
+        </property-ui>
+      </property>
+      <property name="processId">
+        <property-ui type="textBox"
+                     label="Process ID"
+                     description="The ID of the generic process. If the requested process derived 
+                        from a component process this property will be empty."
+                     hidden="true"
+                     default-value="${p?:process.id}">
+        </property-ui>
+      </property>
+
     </properties>
     <post-processing>
       <![CDATA[
@@ -135,7 +177,7 @@
     </post-processing>
     <command program="${GROOVY_HOME}/bin/groovy">
       <arg value="-cp"/>
-      <arg path="classes:lib/groovy-plugin-utils.jar"/>
+	  <arg path="classes:lib/groovy-plugin-utils.jar:lib/uDeployRestClient.jar"/>
       <arg file="conjur_auth.groovy"/>
       <arg file="${PLUGIN_INPUT_PROPS}"/>
       <arg file="${PLUGIN_OUTPUT_PROPS}"/>
@@ -151,19 +193,19 @@
                      description="Organization account name">
 	</property-ui>
       </property>
-      <property name="accesstoken">
+      <property name="accesstoken" required="true">
         <property-ui type="textBox"
                      label="Access Token"
                      description="Access Token">
         </property-ui>
       </property>
-      <property name="varid">
+      <property name="varid"  required="true">
         <property-ui type="textBox"
                      label="Variable ID"
                      description="Variable ID">
         </property-ui>
       </property>
-      <property name="url">
+      <property name="url"  required="true">
         <property-ui type="textBox"
                      label="Conjur URL"
                      description="Url of Conjur, eg https://eval.conjur.org">
@@ -175,7 +217,34 @@
                      description="Proxy, leave it blank if no proxy is needed">
         </property-ui>
       </property>
-
+	  
+	  <property name="outputvar" required="true">
+        <property-ui type="textBox"
+                     label="Ouput Property - Variable"
+                     description="Process Request Property for storing the retrieved variable"
+					 default-value="CyberArk/Conjur/Variable">
+        </property-ui>
+      </property>
+	  
+	  
+      <property name="requestId">
+        <property-ui type="textBox"
+                     label="Process Request ID"
+                     description="Property to reference the ID of the process request. This will
+                        either be a component process request or a generic process request."
+                     hidden="true"
+                     default-value="${p?:request.id}">
+        </property-ui>
+      </property>
+      <property name="processId">
+        <property-ui type="textBox"
+                     label="Process ID"
+                     description="The ID of the generic process. If the requested process derived 
+                        from a component process this property will be empty."
+                     hidden="true"
+                     default-value="${p?:process.id}">
+        </property-ui>
+      </property>
     </properties>
     <post-processing>
       <![CDATA[
@@ -189,7 +258,7 @@
     </post-processing>
     <command program="${GROOVY_HOME}/bin/groovy">
       <arg value="-cp"/>
-      <arg path="classes:lib/groovy-plugin-utils.jar"/>
+      <arg path="classes:lib/groovy-plugin-utils.jar:lib/uDeployRestClient.jar"/>
       <arg file="conjur_getvar.groovy"/>
       <arg file="${PLUGIN_INPUT_PROPS}"/>
       <arg file="${PLUGIN_OUTPUT_PROPS}"/>
