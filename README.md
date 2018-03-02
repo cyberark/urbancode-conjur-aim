@@ -26,9 +26,9 @@ This function allows credentials to be retrieve from Vault server via AIM CP.
 | Folder | Folder of the credential stored | Root | 
 | Object | Name of the credential object | Website-Conjur-httpseval.conjur.org-cf-spring-app-01 |
 | AppID  | AppID defined in PVWA  | UCD |
-| Output Property - Password | Process Request Property for storing retrieved credential | CyberArk/Vault/Password |
-| Output Property - User Name | Process Request Property for storing retrieved username | CyberArk/Vault/User |
-| Output Property - Address | Process Request Property for storing retrieved address | CyberArk/Vault/Address |
+| Output Property - Password |  Property for storing retrieved credential | CyberArk/Vault/Password |
+| Output Property - User Name | Property for storing retrieved username | CyberArk/Vault/User |
+| Output Property - Address | Property for storing retrieved address | CyberArk/Vault/Address |
 
 ##### Output Fields
 | Name |  Description |
@@ -50,7 +50,7 @@ This step gets a [short-lived access token](https://www.conjur.org/reference/cry
 | API Key | API Key for authenicating Conjur	|  | 
 | Conjur URL | URL of Conjur cluster | https://eval.conjur.org |
 | Proxy | Proxy address for calling Conjur REST API. Leave it blank if direct connection is allowed |  ipv4.124.244.113.228.hybrid-web.global.blackspider.com:80 |
-| Output Property - Access Token | Process Request Property for storing the return access token | CyberArk/Conjur/AccessToken |
+| Output Property - Access Token | Property for storing the return access token | CyberArk/Conjur/AccessToken |
 
 
 ##### Output Fields
@@ -69,7 +69,7 @@ This step gets a [short-lived access token](https://www.conjur.org/reference/cry
 | Variable ID	| ID of the variable |	db/prod/pws/db01/serviceA |
 | Conjur URL |	URL of Conjur cluster |	https://eval.conjur.org |
 | Proxy	| Proxy address for calling Conjur REST API. Leave it blank if direct connection is allowed | ipv4.124.244.113.228.hybrid-web.global.blackspider.com:80 |
-| Output Property - Variable | Process Request Property for storing the value of the secret | CyberArk/Conjur/Variable |
+| Output Property - Variable | Property for storing the value of the secret | CyberArk/Conjur/Variable |
 
 
 
