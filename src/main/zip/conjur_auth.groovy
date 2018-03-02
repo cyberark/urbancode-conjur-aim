@@ -1,8 +1,7 @@
-
 import com.urbancode.air.AirPluginTool;
+import com.urbancode.air.plugin.cyberark.UCDRestHelper;
 
 final airTool = new AirPluginTool(args[0], args[1])
-
 final def props = airTool.getStepProperties()
 
 def theAccount = props['account'] ?: ""
@@ -10,14 +9,17 @@ def theLogin = props['login'] ?: ""
 def theApikey = props['apikey'] ?: ""
 def theUrl = props['url'] ?: ""
 def theProxy = props['proxy'] ?: ""
+def theOutputToken = props['outputtoken'] ?: ""
 
 theAccount = theAccount.trim()
+theAccount= URLEncoder.encode(theAccount, "UTF-8")
+
 theLogin = theLogin.trim()
+theLogin= URLEncoder.encode(theLogin, "UTF-8")
+
 theApikey = theApikey.trim()
 theUrl = theUrl.trim()
 theProxy = theProxy.trim()
-
-println("Conjur Auth - Start")
 
 def command="curl "
 if (!theProxy.equals("")) {
@@ -31,16 +33,16 @@ def err = new StringBuffer()
 process.consumeProcessOutput( out, err )
 process.waitFor()
 
-if( out.size() > 0 ) println("Command 1 OK")
-if( err.size() > 0 ) println("Command 1 Error: "+err)
+if( err.size() > 0 ) println("Error: "+err)
 
 theToken = out.toString().trim()
 theToken = theToken.bytes.encodeBase64().toString().trim()
 
-println("Conjur Auth - Stop")
+UCDRestHelper ucdHelper = new UCDRestHelper()
+def requestId = props['requestId']
+boolean isComponent = props['processId'] ? false : true
 
-airTool.setOutputProperty("AccessToken", theToken);
-airTool.storeOutputProperties();
+ucdHelper.setProcessRequestProp(requestId, theOutputToken, theToken.trim(), true, isComponent)
 
 exitValue = process.exitValue();
 
