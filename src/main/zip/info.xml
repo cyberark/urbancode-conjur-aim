@@ -4,32 +4,10 @@
   <release-version>@RELEASE_VERSION@</release-version>
 
   <release-notes>
-    <!--
-      The release-note should document the changes, improvements, or bug fixes introduced
-      with the new plugin version
-
-      The release-note may contain text
-
-      For example your release note could be:
-      Support for was added for version 10.0 for software X
-
-      To add a new release note add this with a description in it of the changes:
-      <release-note plugin-version="1">....</release-note>
-    -->
-
     <release-note plugin-version="1">
-      Installing this plugin will give you access to the steps listed below. These steps can be used when designing a build.
-      1. Using CyberArk AIM Credential Provider to receive credentials from CyberArk vault server
-      2. Using REST API to receive secrets frmo CyberArk Conjur
+       1. Supports retrieving credentials from CyberArk Vault via AIM credential provider
+       2 Support retrieving secrets from CyberArk Conjur containers via REST API
+       3. Support secured output properties
     </release-note>
-
-    <release-note plugin-version="2">
-      Added checkbox to 'Get Password From Vault' step to allow setting secure component process properties.
-    </release-note>
-
-    <release-note plugin-version="3">
-      Updated the 'Get Password From Vault' step to configure either component process request or generic process process request properties.
-    </release-note>
-
   </release-notes>
 </pluginInfo>
