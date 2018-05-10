@@ -3,7 +3,7 @@
         xmlns:server="http://www.urbancode.com/PluginServerXMLSchema_v1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <header>
-    <identifier id="com.urbancode.air.plugin.cyberark" name="CyberArk" version="4"/>
+    <identifier id="com.urbancode.air.plugin.cyberark" name="CyberArk" version="@API_VERSION@"/>
     <description>This CyberArk plugin enables credentials/secrets to be retrieved from a CyberArk Vault or Conjur.</description>
     <tag>Security/CyberArk</tag>
   </header>
