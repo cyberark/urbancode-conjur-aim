@@ -9,5 +9,14 @@
        2 Support retrieving secrets from CyberArk Conjur containers via REST API
        3. Support secured output properties
     </release-note>
+    <release-note plugin-version="2">
+        Added hidden SSL configuration properties.
+    </release-note>
+    <release-note plugin-version="3">
+        Created an SSL Context for sending client certificates to the CyberArk server.
+    </release-note>
+    <release-note plugin-version="4">
+        Added step to retrieve password from Central Credential Provider Web API.
+    </release-note>
   </release-notes>
 </pluginInfo>
