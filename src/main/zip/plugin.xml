@@ -3,13 +3,106 @@
         xmlns:server="http://www.urbancode.com/PluginServerXMLSchema_v1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <header>
-    <identifier id="com.urbancode.air.plugin.cyberark" version="@API_VERSION@" name="CyberArk"/>
-    <description>This CyberArk plugin enables credentials/secrets retrieval from CyberArk Vault and Conjur</description>
+    <identifier id="com.urbancode.air.plugin.cyberark" name="CyberArk" version="@API_VERSION@"/>
+    <description>This CyberArk plugin enables credentials/secrets to be retrieved from a CyberArk Vault or Conjur.</description>
     <tag>Security/CyberArk</tag>
   </header>
 
-  <step-type name="Get Password from Vault">
-    <description>Get Password using CyberArk AIM Credential Provider</description>
+  <step-type name="Get Password from CCP (Web Service)">
+    <description>
+        Retrieve a password from CyberArk AIM Central Credential Provider via an HTTP request. 
+        The Central Credential Provider is installed remote to the agent on a central IIS server. This step will
+        set the CyberArk/username, CyberArk/address, and CyberArk/password properties at either the
+        component process request level or the generic process request level.
+    </description>
+    <properties>
+      <property name="serverUrl" required="true">
+        <property-ui type="textBox"
+                     label="Server URL"
+                     description="The URL of your CyberArk server. This property should be specified
+                        in the format 'https://&#60;host:port&#62;/AIMWebService/api/accounts'."/>
+      </property>
+      <property name="appId" required="true">
+        <property-ui type="textBox"
+                     label="Application ID"
+                     description="The unique ID of the application issuing the password request."/>
+      </property>
+      <property name="safe">
+        <property-ui type="textBox"
+                     label="Safe"
+                     description="The name of the safe where the password is stored."/>
+      </property>
+      <property name="folder">
+        <property-ui type="textBox"
+                     label="Folder"
+                     description="The name of the folder where the password is stored."/>
+      </property>
+      <property name="object">
+        <property-ui type="textBox"
+                     label="Object Name"
+                     description="The name of the password object to retrieve."/>
+      </property>
+      <property name="keyFile">
+        <property-ui type="textBox"
+                     label="Keystore File"
+                     description="The path to the agent machine's keystore file. This is required
+                        when the CyberArk server authenticates applications using client certificates."/>
+      </property>
+      <property name="keyPass">
+        <property-ui type="secureBox"
+                     label="Keystore Password"
+                     description="The password of the agent machine's keystore."/>
+      </property>
+      <property name="keyType">
+        <property-ui type="textBox"
+                     label="Keystore Type"
+                     description="The type of keystore on the agent machine."/>
+      </property>
+      <property name="trustCerts">
+        <property-ui type="checkBox"
+                     label="Trust Invalid Certificates"
+                     description="Check this box to trust all SSL certificates on the agent machine.
+                        This will trust any certificate returned from the CyberArk server during connection."/>
+      </property>
+      <property name="requestId">
+        <property-ui type="textBox"
+                     label="Process Request ID"
+                     description="Property to reference the ID of the process request. This will
+                        either be a component process request or a generic process request."
+                     hidden="true"
+                     default-value="${p?:request.id}"/>
+      </property>
+      <property name="processId">
+        <property-ui type="textBox"
+                     label="Process ID"
+                     description="The ID of the generic process. If the requested process derives
+                        from a component process this property will be empty."
+                     hidden="true"
+                     default-value="${p?:process.id}"/>
+      </property>
+    </properties>
+    <post-processing><![CDATA[
+        if (properties.get("exitCode") != 0) {
+            properties.put(new java.lang.String("Status"), new java.lang.String("Failure"));
+        }
+        else {
+            properties.put("Status", "Success");
+        }
+     ]]></post-processing>
+    <command program="${GROOVY_HOME}/bin/groovy">
+      <arg value="-cp"/>
+      <arg path="classes:lib/httpclient.jar:lib/httpcore.jar:lib/commons-lang3.jar:lib/jettison-1.1.jar:lib/uDeployRestClient.jar:lib/HttpComponents-Util.jar:lib/securedata.jar"/>
+      <arg file="requestPassword.groovy"/>
+      <arg file="${PLUGIN_INPUT_PROPS}"/>
+      <arg file="${PLUGIN_OUTPUT_PROPS}"/>
+    </command>
+  </step-type>
+
+  <step-type name="Get Password from CP (CLI Utility)">
+    <description>Retrieve a password from CyberArk AIM Credential Provider via the clipasswordsdk
+        command line utillity on the agent machine. This step will set the CyberArk/username, 
+        CyberArk/address, and CyberArk/password properties at either the component process request 
+        level or the generic process request level.</description>
     <properties>
       <property name="path" required="true">
        <property-ui type="textBox"
