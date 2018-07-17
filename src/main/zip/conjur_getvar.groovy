@@ -10,6 +10,7 @@ def theUrl = props['url'] ?: ""
 def theVarID = props['varid'] ?: ""
 def theAccessToken = props['accesstoken'] ?: ""
 def theProxy = props['proxy'] ?: ""
+def apiVer = props['apiVer'] ?: "v5"
 
 theAccount = theAccount.trim()
 theAccount= URLEncoder.encode(theAccount, "UTF-8")
@@ -18,6 +19,7 @@ theUrl = theUrl.trim()
 theVarID = theVarID.trim()
 theAccessToken = theAccessToken.trim()
 theProxy = theProxy.trim()
+apiVer = apiVer.trim()
 
 def theOutputVar = props['outputvar'] ?: ""
 
@@ -32,8 +34,14 @@ command += "-k"
 command += "-s"
 command += "--request"
 command += "GET"
-command += theUrl+'/secrets/'+theAccount+'/variable/'+theVarID
 
+if (apiVer == "v4") {
+	theVarIDEncoded = URLEncoder.encode(theVarID, "UTF-8")
+	command += theUrl + '/api/variables/' + theVarIDEncoded + '/value'
+}
+else {
+	command += theUrl + '/secrets/' + theAccount + '/variable/' + theVarID
+}
 Process process = command.execute()
 def out = new StringBuffer()
 def err = new StringBuffer()
