@@ -18,5 +18,8 @@
     <release-note plugin-version="4">
         Added step to retrieve password from Central Credential Provider Web API.
     </release-note>
+    <release-note plugin-version="5">
+        Added support for Conjur v4
+    </release-note>
   </release-notes>
 </pluginInfo>
