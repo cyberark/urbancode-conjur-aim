@@ -18,4 +18,6 @@
     <migrate-command name="Get Password from CCP (Web Service)" old="Retrieve Password"/>
     <migrate-command name="Get Password from CP (CLI Utility)" old="Get Password from Vault"/>
   </migrate>
+  <migrate to-version="5">
+  </migrate>
 </plugin-upgrade>
