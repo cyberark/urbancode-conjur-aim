@@ -236,6 +236,15 @@
 					 default-value="CyberArk/Conjur/AccessToken">
         </property-ui>
       </property>
+      <property name="apiVer"  required="true">
+        <property-ui type="selectBox"
+                     label="Api Version"
+                     description="Api Version"
+                     default-value="v5">
+        </property-ui>
+        <value label="v4">v4</value>
+        <value label="v5">v5</value>
+      </property>
 	  
 	  
       <property name="requestId">
@@ -309,6 +318,15 @@
                      label="Proxy"
                      description="Proxy, leave it blank if no proxy is needed">
         </property-ui>
+      </property>
+      <property name="apiVer"  required="true">
+        <property-ui type="selectBox"
+                     label="Api Version"
+                     description="Api Version"
+                     default-value="v5">
+        </property-ui>
+        <value label="v4">v4</value>
+        <value label="v5">v5</value>
       </property>
 	  
 	  <property name="outputvar" required="true">

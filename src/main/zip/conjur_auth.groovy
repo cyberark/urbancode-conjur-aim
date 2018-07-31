@@ -10,6 +10,7 @@ def theApikey = props['apikey'] ?: ""
 def theUrl = props['url'] ?: ""
 def theProxy = props['proxy'] ?: ""
 def theOutputToken = props['outputtoken'] ?: ""
+def apiVer = props['apiVer'] ?: "v5"
 
 theAccount = theAccount.trim()
 theAccount= URLEncoder.encode(theAccount, "UTF-8")
@@ -25,7 +26,13 @@ def command="curl "
 if (!theProxy.equals("")) {
 	command = command + " -x " + theProxy + " "
 }
-command = command + " -k -s --request POST --data "+theApikey+" "+ theUrl +"/authn/"+theAccount+"/host%2F"+theLogin+"/authenticate"
+if (apiVer == "v4") {
+	command += " -k -s --request POST --data "+theApikey+" "+theUrl + "/api/authn/users/" + theLogin + "/authenticate"
+}
+else {
+	command = command + " -k -s --request POST --data "+theApikey+" "+ theUrl +"/authn/"+theAccount+"/host%2F"+theLogin+"/authenticate"
+}
+
 
 Process process = command.execute()
 def out = new StringBuffer()
