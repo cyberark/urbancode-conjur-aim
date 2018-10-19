@@ -21,5 +21,8 @@
     <release-note plugin-version="5">
         Added support for Conjur v4
     </release-note>
+    <release-note plugin-version="6">
+        Added 'Property Prefix' field to 'Get Password from CCP' step.
+    </release-note>
   </release-notes>
 </pluginInfo>

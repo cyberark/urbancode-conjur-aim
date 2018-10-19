@@ -42,6 +42,15 @@
                      label="Object Name"
                      description="The name of the password object to retrieve."/>
       </property>
+      <property name="propPrefix" required="true">
+        <property-ui type="textBox"
+                     label="Process Property Prefix"
+                     description="The value to be prepended to each process request property
+                        that is created by this step.
+                        You may address these properties in subsequent steps with the syntax:
+                        ${p:&lt;prefix&gt;/password} for instance."
+                     default-value="CyberArk"/>
+      </property>
       <property name="keyFile">
         <property-ui type="textBox"
                      label="Keystore File"

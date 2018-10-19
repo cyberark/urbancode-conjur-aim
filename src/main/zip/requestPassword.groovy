@@ -10,6 +10,7 @@ String safe = props['safe']
 String folder = props['folder']
 String object = props['object']
 String requestId = props['requestId']
+String propPrefix = props['propPrefix']
 boolean isComponent = props['processId'] ? false : true // Existing property for generic processes
 
 String keyStore = props['keyFile']
@@ -27,9 +28,14 @@ try {
     String address = response.get("Address")
 
     /* Set secure password property, but insecure username and address properties */
-    ucdHelper.setProcessRequestProp(requestId, "CyberArk/password", password, true, isComponent)
-    ucdHelper.setProcessRequestProp(requestId, "CyberArk/username", username, false, isComponent)
-    ucdHelper.setProcessRequestProp(requestId, "CyberArk/address", address, false, isComponent)
+    ucdHelper.setProcessRequestProp(requestId, propPrefix + "/password", password, true, isComponent)
+
+    if (username) {
+        ucdHelper.setProcessRequestProp(requestId, propPrefix + "/username", username, false, isComponent)
+    }
+    if (address) {
+        ucdHelper.setProcessRequestProp(requestId, propPrefix + "/address", address, false, isComponent)
+    }
 }
 finally {
     aimClient.cleanUp()
