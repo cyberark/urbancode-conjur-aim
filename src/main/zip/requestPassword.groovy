@@ -17,6 +17,12 @@ String keyStore = props['keyFile']
 String keyPass = props['keyPass']
 String keyType = props['keyType']
 boolean trustCerts = Boolean.valueOf(props['trustCerts'])
+String jsseDebugLevel = props['jsseDebugLevel']?.trim()
+
+/* Configure JSSE debugging if specified */
+if (jsseDebugLevel) {
+    System.setProperty("javax.net.debug", jsseDebugLevel)
+}
 
 AIMRestClient aimClient = new AIMRestClient(serverUrl, trustCerts, keyType, keyStore, keyPass)
 UCDRestHelper ucdHelper = new UCDRestHelper()

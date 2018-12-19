@@ -24,5 +24,8 @@
     <release-note plugin-version="6">
         Added 'Property Prefix' field to 'Get Password from CCP' step.
     </release-note>
+    <release-note plugin-version="7">
+        RFE 128463 - Property to enable SSL debugging.
+    </release-note>
   </release-notes>
 </pluginInfo>

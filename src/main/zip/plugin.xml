@@ -12,7 +12,7 @@
     <description>
         Retrieve a password from CyberArk AIM Central Credential Provider via an HTTP request. 
         The Central Credential Provider is installed remote to the agent on a central IIS server. This step will
-        set the CyberArk/username, CyberArk/address, and CyberArk/password properties at either the
+        set the &lt;prefix&gt;/username, &lt;prefix&gt;/address, and &lt;prefix&gt;/password properties at either the
         component process request level or the generic process request level.
     </description>
     <properties>
@@ -72,6 +72,14 @@
                      label="Trust Invalid Certificates"
                      description="Check this box to trust all SSL certificates on the agent machine.
                         This will trust any certificate returned from the CyberArk server during connection."/>
+      </property>
+      <property name="jsseDebugLevel">
+        <property-ui type="textBox"
+                     label="SSL/TLS Debug Level"
+                     description="Specify a debug level to set the 'javax.net.debug' system property.
+                        A level of 'all' will log everything. You can specify more specific logging levels
+                        with values. For instance 'ssl:handshake' will only log information regarding
+                        handshakes between the client and server."/>
       </property>
       <property name="requestId">
         <property-ui type="textBox"
