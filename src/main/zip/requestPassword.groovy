@@ -10,12 +10,19 @@ String safe = props['safe']
 String folder = props['folder']
 String object = props['object']
 String requestId = props['requestId']
+String propPrefix = props['propPrefix']
 boolean isComponent = props['processId'] ? false : true // Existing property for generic processes
 
 String keyStore = props['keyFile']
 String keyPass = props['keyPass']
 String keyType = props['keyType']
 boolean trustCerts = Boolean.valueOf(props['trustCerts'])
+String jsseDebugLevel = props['jsseDebugLevel']?.trim()
+
+/* Configure JSSE debugging if specified */
+if (jsseDebugLevel) {
+    System.setProperty("javax.net.debug", jsseDebugLevel)
+}
 
 AIMRestClient aimClient = new AIMRestClient(serverUrl, trustCerts, keyType, keyStore, keyPass)
 UCDRestHelper ucdHelper = new UCDRestHelper()
@@ -27,9 +34,14 @@ try {
     String address = response.get("Address")
 
     /* Set secure password property, but insecure username and address properties */
-    ucdHelper.setProcessRequestProp(requestId, "CyberArk/password", password, true, isComponent)
-    ucdHelper.setProcessRequestProp(requestId, "CyberArk/username", username, false, isComponent)
-    ucdHelper.setProcessRequestProp(requestId, "CyberArk/address", address, false, isComponent)
+    ucdHelper.setProcessRequestProp(requestId, propPrefix + "/password", password, true, isComponent)
+
+    if (username) {
+        ucdHelper.setProcessRequestProp(requestId, propPrefix + "/username", username, false, isComponent)
+    }
+    if (address) {
+        ucdHelper.setProcessRequestProp(requestId, propPrefix + "/address", address, false, isComponent)
+    }
 }
 finally {
     aimClient.cleanUp()

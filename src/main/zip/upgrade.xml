@@ -20,4 +20,18 @@
   </migrate>
   <migrate to-version="5">
   </migrate>
+  <migrate to-version="6">
+    <migrate-command name="Get Password from CCP (Web Service)">
+      <migrate-properties>
+        <migrate-property name="propPrefix" default="CyberArk" />
+      </migrate-properties>
+    </migrate-command>
+  </migrate>
+  <migrate to-version="7">
+    <migrate-command name="Get Password from CCP (Web Service)">
+      <migrate-properties>
+        <migrate-property name="jsseDebugLevel" default="" />
+      </migrate-properties>
+    </migrate-command>
+  </migrate>
 </plugin-upgrade>
