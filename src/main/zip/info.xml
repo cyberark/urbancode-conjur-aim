@@ -27,5 +27,8 @@
     <release-note plugin-version="7">
         RFE 128463 - Property to enable SSL debugging.
     </release-note>
+    <release-note plugin-version="8">
+        NTLM authanticaiton added.
+    </release-note>
   </release-notes>
 </pluginInfo>

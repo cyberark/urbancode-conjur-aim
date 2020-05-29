@@ -28,7 +28,11 @@ class AIMRestClient {
         boolean trustAllCerts,
         String keyType,
         String keyStore,
-        String keyPass)
+        String keyPass,
+		boolean isNtlm,
+		String domain,
+		String username,
+		Stirng pass)
     {
         if (!serverUrl.substring(0, 7).equalsIgnoreCase("http://") && !serverUrl.substring(0, 8).equalsIgnoreCase("https://")){
             println("[Error] An HTTP protocol (http:// or https://) must be prepended to server URL: ${serverUrl}")
@@ -66,6 +70,13 @@ class AIMRestClient {
 
             clientBuilder.setKeyManagers(kmFactory.getKeyManagers())
         }
+        
+        if(!StringUtils.isEmpty(username) && !StringUtils.isEmpty(pass)){
+			clientBuilder.setNtlm(isNtlm);
+			clientBuilder.setDomain(domain);
+			clientBuilder.setUsername(username);
+			clientBuilder.setPassword(pass);
+		}
 
         client = clientBuilder.buildClient()
     }

@@ -19,12 +19,17 @@ String keyType = props['keyType']
 boolean trustCerts = Boolean.valueOf(props['trustCerts'])
 String jsseDebugLevel = props['jsseDebugLevel']?.trim()
 
+String isNtlm = Boolean.valueOf(props['isNtlm'])
+String domain = props['domain']
+String username = props['username']
+String pass = props['pass']
+
 /* Configure JSSE debugging if specified */
 if (jsseDebugLevel) {
     System.setProperty("javax.net.debug", jsseDebugLevel)
 }
 
-AIMRestClient aimClient = new AIMRestClient(serverUrl, trustCerts, keyType, keyStore, keyPass)
+AIMRestClient aimClient = new AIMRestClient(serverUrl, trustCerts, keyType, keyStore, keyPass, isNtlm, domain, username, pass)
 UCDRestHelper ucdHelper = new UCDRestHelper()
 
 try {

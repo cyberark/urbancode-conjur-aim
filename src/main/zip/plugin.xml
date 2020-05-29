@@ -97,6 +97,27 @@
                      hidden="true"
                      default-value="${p?:process.id}"/>
       </property>
+      
+      <property name="isNtlm">
+        <property-ui type="checkBox"
+                     label="Activate NTLM Authantication"
+                     description="Activate NTLM Authantication."/>
+      </property>
+	  <property name="domain">
+        <property-ui type="textBox"
+                     label="Domain of NTLM Authantication"
+                     description="The domain of the ntlm's authantication."/>
+      </property>
+      <property name="username">
+        <property-ui type="textBox"
+                     label="Username of NTLM Authantication"
+                     description="The username of the ntlm's authantication."/>
+      </property>
+      <property name="pass">
+        <property-ui type="secureBox"
+                     label="Password of NTLM User"
+                     description="The password of the ntlm's user."/>
+      </property>
     </properties>
     <post-processing><![CDATA[
         if (properties.get("exitCode") != 0) {
