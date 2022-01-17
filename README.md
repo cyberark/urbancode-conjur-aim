@@ -1,5 +1,5 @@
 # urbancode-conjur-aim
-A plugin which allows UrbanCode Deploy to get credentials from EPV via AIM, and to get secrets from Conjur for setting up a CI/CD workflow
+A plugin which allows UrbanCode Deploy to get credentials from CyberArk Privileged Access Security/Privileged Cloud via CyberArk Secrets Manager, for CI/CD workflows
 
 
 ## Compiling Source
@@ -13,9 +13,9 @@ A plugin which allows UrbanCode Deploy to get credentials from EPV via AIM, and 
 ## Usage
 The plugin can be used in process designer of "Process" & "Components", by dragging from the left menu area under "Security > CyberArk
 
-### AIM
+### Secrets Manager Credential Providers
 #### Get Password from Vault
-This function allows credentials to be retrieve from Vault server via AIM CP.
+This function allows credentials to be retrieve from Vault server via Secrets Manager Credential Provider.
 
 ##### Input Fields
 | Name | Description | Example |
@@ -37,6 +37,30 @@ This function allows credentials to be retrieve from Vault server via AIM CP.
 | <specified by "Output Property - User Name", e.g. CyberArk/Vault/User>	| User Name of the credential | 
 | <specified by "Output Property - Address", e.g. CyberArk/Vault/Address>	| Address of the credential |
 
+
+#### Get Password from CCP (Web Service)
+This function allows credentials to be retrieve from Vault server via Secrets Manager Central Credential Provider.
+CyberArk/username, CyberArk/address, and CyberArk/password 
+
+##### Input Fields
+| Name | Description | Example |
+| ---- | ----------- | ------- |
+| Name | Name of the step | Get Password from CCP (Web Service) |
+| Server URL | The URL of your CyberArk CCP | https://<host:port>/AIMWebService/api/accounts  |
+| Application ID | The unique ID of the application issuing the password request |  |
+| Safe | The name of the safe where the password is stored |  | 
+| Folder | The name of the folder where the password is stored |  | 
+| Object Name | The name of the password object to retrieve |  | 
+| Process Property Prefix | The value to be prepended to each process request property that is created by this step. You may address these properties in subsequent steps with the syntax:  ${p:<prefix>/password} for instance |  | 
+| Keystore File | The path to the agent machine's keystore file. This is required when the CyberArk server authenticates applications using client certificates |  | 
+| Keystore Password | The password of the agent machine's keystore |  | 
+| Keystore Type | The type of keystore on the agent machine |  | 
+| Trust Invalid Certificates | Check this box to trust all SSL certificates on the agent machine. This will trust any certificate returned from the CyberArk server during connection |  | 
+| SSL/TLS Debug Level | Specify a debug level to set the 'javax.net.debug' system property. A level of 'all' will log everything. You can specify more specific logging level with values. For instance 'ssl:handshake' will only log information regarding handshakes between the client and server. |  | 
+
+
+
+
 ### Conjur
 #### Authenticate Conjur
 This step gets a [short-lived access token](https://www.conjur.org/reference/cryptography.html#authentication-tokens), which can be used to authenticate requests to (most of) the rest of the Conjur API. A client can obtain an access token by presenting a valid login name and API key.
@@ -57,6 +81,7 @@ This step gets a [short-lived access token](https://www.conjur.org/reference/cry
 | Name |  Description |
 | ---- | ----------- | 
 | <specified by "Output Property - Access Token", e.g. CyberArk/Conjur/AccessToken>	| [Short-lived access token](https://www.conjur.org/reference/cryptography.html#authentication-tokens) | 
+
 
 #### Get Variable from Conjur
 
